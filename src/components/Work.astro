@@ -1,0 +1,212 @@
+---
+const projects = [
+  { name: "Next Mobile", url: "https://nextmobile.ae/", type: "Ecommerce", sector: "Mobile phones & gadgets · UAE", image: "https://picsum.photos/seed/nextmobile/1600/1000" },
+  { name: "Core Precast", url: "https://coreprecastuae.com/", type: "Business website", sector: "Precast concrete · UAE", image: "https://picsum.photos/seed/coreprecast/1600/1000" },
+  { name: "Fashion Furniture", url: "https://fashionfurnitureuae.com/", type: "Business website", sector: "Interior design & furniture · UAE", image: "https://picsum.photos/seed/fashionfurniture/1600/1000" },
+  { name: "RN Experts", url: "https://rnexperts.net/", type: "Business website", sector: "Nursing exam prep · Worldwide", image: "https://picsum.photos/seed/rnexperts/1600/1000" },
+  { name: "Sathyan Nedumanchery", url: "https://sathyian.com/", type: "News website", sector: "News & stories · UK", image: "https://picsum.photos/seed/sathyian/1600/1000" },
+];
+const domain = (u: string) => new URL(u).hostname.replace(/^www\./, "");
+---
+<section id="work" class="work py-12 md:py-20" aria-labelledby="work-title">
+  <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-10">
+    <div>
+      <h2 id="work-title">Our work</h2>
+    </div>
+    <p class="lead max-w-md md:text-right">Live websites we have designed, built and launched for businesses in the UAE, the UK and beyond.</p>
+  </div>
+
+  <div class="mt-10 grid gap-10 md:mt-12 lg:grid-cols-12 lg:gap-x-12 xl:gap-x-20">
+    <div class="lg:col-span-5">
+      <div class="lg:sticky lg:top-24 lg:flex lg:h-[calc(100vh-8rem)] lg:flex-col lg:justify-between">
+        <div>
+          <p class="statement">
+            We don't do <em>templates</em>.<br />
+            We do <em>tailor-made</em>.<br />
+            <span class="text-secondary">Whether it's a growing online store or a local business going digital, the goal never changes: make it sell.</span>
+          </p>
+          <p class="mt-6 flex items-center gap-6">
+            <span class="judge">See for yourself.</span>
+            <svg class="arrow" viewBox="0 0 160 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M2 22c30-3 70-6 150-4" />
+              <path d="M128 4c8 6 16 11 25 14-9 5-18 11-26 18" />
+            </svg>
+          </p>
+        </div>
+      </div>
+    </div>
+    <ol class="stack lg:col-span-7">
+      {projects.map((p, i) => (
+        <li class="stack-item" style={`--i:${i}`} data-stack={i}>
+          <a href={p.url} target="_blank" rel="noopener noreferrer" class="card group">
+            <span class="card-info">
+              <span class="caption-name">{p.name}</span>
+              <span class="caption-meta">{p.type}, {p.sector}</span>
+            </span>
+            <img src={p.image} alt={`The ${p.name} website`} width="1600" height="1000" loading="lazy" decoding="async" />
+            <span class="card-pill">
+              {domain(p.url)}
+              <span class="card-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9" /></svg>
+              </span>
+            </span>
+            <span class="sr-only"> (opens {domain(p.url)} in a new tab)</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .statement {
+    color: var(--color-white);
+    font-size: var(--text-h3);
+    line-height: 1.1;
+    letter-spacing: var(--text-h3--letter-spacing);
+  }
+  .statement em {
+    font-style: italic;
+    font-weight: 300;
+  }
+  .judge {
+    color: var(--color-white);
+    font-size: var(--text-h3);
+    line-height: 1;
+    letter-spacing: var(--text-h3--letter-spacing);
+    font-weight: 700;
+  }
+  .arrow {
+    width: clamp(80px, 10vw, 160px);
+    flex: none;
+    color: var(--color-accent);
+  }
+  .card-info {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    max-width: calc(100% - 24px);
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: rgb(7 8 8 / 0.7);
+    backdrop-filter: blur(10px);
+    text-align: right;
+  }
+  .caption-name {
+    color: var(--color-white);
+    font-size: var(--text-lead);
+    line-height: 1.15;
+    letter-spacing: var(--text-lead--letter-spacing);
+  }
+  .caption-meta {
+    margin-top: 4px;
+    color: var(--color-muted);
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+  }
+
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  @media (min-width: 1024px) {
+    .stack { gap: 12vh; padding-bottom: 8vh; }
+    .stack-item {
+      position: sticky;
+      top: calc(6rem + var(--i) * 14px);
+    }
+  }
+  .card {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: clamp(16px, 2vw, 24px);
+    background: rgb(255 255 255 / 0.05);
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08), 0 -20px 50px -20px rgb(0 0 0 / 0.7);
+    transform-origin: center top;
+    will-change: transform;
+  }
+  .card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    transition: scale 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.3s;
+    filter: brightness(var(--dim, 1));
+  }
+  @media (hover: hover) {
+    .card:hover img { scale: 1.03; }
+  }
+  @media (max-width: 480px) {
+    .card-info { top: 8px; right: 8px; padding: 8px 12px; }
+    .card-pill { left: 8px; bottom: 8px; }
+  }
+  .card:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+
+  .card-pill {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 6px 6px 16px;
+    border-radius: 9999px;
+    background: rgb(7 8 8 / 0.7);
+    backdrop-filter: blur(10px);
+    color: var(--color-primary);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+  }
+  .card-arrow {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 9999px;
+    background: var(--color-accent);
+    color: var(--color-page);
+    transition: rotate 0.4s cubic-bezier(0.3, 1.4, 0.5, 1);
+  }
+  .card-arrow svg { width: 15px; height: 15px; }
+  .card:hover .card-arrow { rotate: 45deg; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card img, .card-arrow { transition: none; }
+  }
+</style>
+
+<script>
+  const items = [...document.querySelectorAll<HTMLElement>("[data-stack]")];
+  const desktop = matchMedia("(min-width: 1024px)");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  let ticking = false;
+
+  const update = () => {
+    ticking = false;
+    if (!desktop.matches || reduce) return;
+    items.forEach((item, i) => {
+      const card = item.querySelector<HTMLElement>(".card")!;
+      const next = items[i + 1];
+      if (!next) return;
+      const gap = next.getBoundingClientRect().top - item.getBoundingClientRect().top;
+      const p = Math.min(Math.max(1 - gap / item.offsetHeight, 0), 1);
+      card.style.transform = `scale(${1 - p * 0.06})`;
+      card.style.setProperty("--dim", String(1 - p * 0.45));
+    });
+  };
+
+  const onScroll = () => {
+    if (!ticking) requestAnimationFrame(update);
+    ticking = true;
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
+  update();
+</script>

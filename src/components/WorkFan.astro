@@ -1,0 +1,113 @@
+---
+const shots = [
+  { seed: "paperhue-1", r: -14, y: 0, rm: -12, ym: 0, tag: { text: "@Ecommerce", pos: "top", x: 45, r: -12 } },
+  { seed: "paperhue-2", r: -7, y: 14, rm: -4, ym: 10 },
+  { seed: "paperhue-3", r: -1, y: 26, rm: 4, ym: 10, tag: { text: "@WebApps", pos: "bottom", x: 46, r: 3 } },
+  { seed: "paperhue-4", r: 7, y: 14, desktopOnly: true },
+  { seed: "paperhue-5", r: 13, y: 0, rm: 12, ym: 0, tag: { text: "@AIAgents", pos: "top", x: 55, r: 12 } },
+];
+---
+
+<div class="fan" aria-label="Recent projects">
+  {shots.map((s, i) => (
+    <figure class:list={["shot", { extra: s.desktopOnly }]} style={`--r:${s.r}deg;--y:${s.y}px;--rm:${s.rm ?? s.r}deg;--ym:${s.ym ?? s.y}px;--i:${i}`}>
+      <img src={`https://picsum.photos/seed/${s.seed}/640/480`} alt="" width="640" height="480" loading="lazy" decoding="async" />
+      {s.tag && <span class={`bubble ${s.tag.pos}`} style={`--br:${s.tag.r}deg;--bx:${s.tag.x}%`}>{s.tag.text}</span>}
+    </figure>
+  ))}
+</div>
+
+<style>
+  .fan {
+    --w: clamp(150px, 25vw, 340px);
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-block: 72px 80px;
+    overflow-x: clip;
+  }
+  .shot {
+    position: relative;
+    flex: none;
+    width: var(--w);
+    aspect-ratio: 5 / 4;
+    margin: 0 calc(var(--w) * -0.165);
+    rotate: var(--r);
+    translate: 0 var(--y);
+    z-index: var(--i);
+    transition: rotate 0.5s cubic-bezier(0.3, 1.4, 0.5, 1), translate 0.5s cubic-bezier(0.3, 1.4, 0.5, 1), scale 0.5s cubic-bezier(0.3, 1.4, 0.5, 1);
+    animation: shot-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) calc(var(--i) * 0.08s) backwards;
+  }
+  .shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 7%;
+    background: rgb(255 255 255 / 0.06);
+    box-shadow: 0 24px 50px -20px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(255 255 255 / 0.06);
+  }
+  @media (hover: hover) {
+    .shot:hover {
+      z-index: 20;
+      rotate: 0deg;
+      translate: 0 calc(var(--y) - 18px);
+      scale: 1.06;
+    }
+  }
+
+  .bubble {
+    position: absolute;
+    left: var(--bx);
+    z-index: 1;
+    padding: 9px 16px;
+    border-radius: 9999px;
+    background: var(--color-white);
+    color: var(--color-page);
+    font-size: var(--text-small);
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    translate: -50% 0;
+    rotate: calc(var(--br) - var(--r));
+    box-shadow: 0 10px 24px -10px rgb(0 0 0 / 0.6);
+    animation: bob 4s ease-in-out calc(var(--i) * -0.7s) infinite;
+  }
+  .bubble::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    background: inherit;
+    translate: -50% 0;
+    rotate: 45deg;
+  }
+  .bubble.top { bottom: calc(100% - 16px); }
+  .bubble.top::after { top: calc(100% - 7px); }
+  .bubble.bottom { top: calc(100% + 2px); }
+  .bubble.bottom::after { bottom: calc(100% - 7px); }
+
+  @keyframes shot-in {
+    from { opacity: 0; translate: 0 calc(var(--y) + 60px); rotate: 0deg; }
+  }
+  @keyframes bob {
+    50% { margin-top: -6px; }
+  }
+  @media (max-width: 640px) {
+    .fan {
+      --w: min(27vw, 150px);
+      padding-block: 48px 56px;
+    }
+    .extra { display: none; }
+    .shot {
+      rotate: var(--rm);
+      translate: 0 var(--ym);
+    }
+    .bubble { rotate: calc(var(--br) - var(--rm)); }
+    .bubble { font-size: var(--text-label); padding: 7px 11px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .shot, .bubble { animation: none; transition: none; }
+  }
+</style>

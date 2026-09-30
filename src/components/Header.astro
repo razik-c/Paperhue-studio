@@ -1,0 +1,137 @@
+---
+import Logo from "./Logo.astro";
+
+const links = [
+  { href: "#services", label: "services" },
+  { href: "#work", label: "work" },
+  { href: "#why-us", label: "why us" },
+];
+---
+
+<header class="relative z-10 container mx-auto grid h-24 grid-cols-[1fr_auto] items-center px-5 sm:px-6 md:h-32.5 md:grid-cols-[1fr_auto_1fr]">
+  <Logo />
+
+  <nav class="hidden items-center gap-10 md:flex lg:gap-12" aria-label="Main">
+    {links.map((l) => <a href={l.href} class="lead text-white transition-opacity hover:opacity-60">{l.label}</a>)}
+  </nav>
+
+  <div class="justify-self-end">
+    <a href="#contact" class="talk" data-talk>
+      <span class="talk-goo" aria-hidden="true">
+        <span class="talk-base"></span>
+        <span class="talk-blob"></span>
+      </span>
+      <span class="talk-label">Ready to talk?</span>
+    </a>
+  </div>
+
+  <svg width="0" height="0" class="absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="goo" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 22 -9" />
+      </filter>
+    </defs>
+  </svg>
+</header>
+
+<style>
+  .talk {
+    --size: 64px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 9999px;
+    color: var(--color-white);
+    text-align: center;
+    will-change: transform;
+  }
+  .talk-goo {
+    position: absolute;
+    inset: 0;
+    filter: url(#goo);
+  }
+  .talk-base {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: rgb(255 255 255 / 0.06);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
+  }
+  .talk-blob {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 60%;
+    height: 60%;
+    margin: -30% 0 0 -30%;
+    border-radius: 9999px;
+    background: var(--color-accent);
+    transform: translate(var(--bx, 50%), var(--by, 50%)) scale(var(--bs, 0));
+    transition: transform 0s;
+  }
+  .talk-label {
+    position: relative;
+    max-width: 80%;
+    font-size: var(--text-label);
+    line-height: 1.1;
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLElement>("[data-talk]");
+  const blob = btn?.querySelector<HTMLElement>(".talk-blob");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (btn && blob && !reduce && matchMedia("(hover: hover)").matches) {
+    const t = { x: 0.5, y: 0.5, s: 0, mx: 0, my: 0 };
+    const c = { x: 0.5, y: 0.5, s: 0, mx: 0, my: 0 };
+    let raf = 0;
+
+    const tick = () => {
+      c.x += (t.x - c.x) * 0.16;
+      c.y += (t.y - c.y) * 0.16;
+      c.s += (t.s - c.s) * 0.12;
+      c.mx += (t.mx - c.mx) * 0.15;
+      c.my += (t.my - c.my) * 0.15;
+
+      const w = btn.offsetWidth;
+      btn.style.transform = `translate(${c.mx}px, ${c.my}px)`;
+      blob.style.setProperty("--bx", `${c.x * w}px`);
+      blob.style.setProperty("--by", `${c.y * w}px`);
+      blob.style.setProperty("--bs", String(c.s));
+
+      const settled = Math.abs(t.s - c.s) < 0.003 && Math.abs(t.mx - c.mx) < 0.05 && Math.abs(t.x - c.x) < 0.002;
+      raf = settled ? 0 : requestAnimationFrame(tick);
+    };
+    const run = () => { if (!raf) raf = requestAnimationFrame(tick); };
+
+    window.addEventListener("pointermove", (e) => {
+      const r = btn.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+      const reach = r.width * 0.9;
+
+      if (dist < reach) {
+        t.mx = (e.clientX - cx) * 0.25;
+        t.my = (e.clientY - cy) * 0.25;
+        const inside = dist < r.width / 2;
+        t.s = inside ? 1.9 : 0.9;
+        t.x = Math.min(Math.max((e.clientX - r.left) / r.width, 0.1), 0.9);
+        t.y = Math.min(Math.max((e.clientY - r.top) / r.height, 0.1), 0.9);
+      } else {
+        t.mx = t.my = t.s = 0;
+        t.x = t.y = 0.5;
+      }
+      run();
+    });
+    document.addEventListener("pointerleave", () => {
+      t.mx = t.my = t.s = 0;
+      t.x = t.y = 0.5;
+      run();
+    });
+  }
+</script>

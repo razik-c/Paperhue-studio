@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Services from "../components/Services.astro";
+import WorkFan from "../components/WorkFan.astro";
+import Work from "../components/Work.astro";
+import WhyUs from "../components/WhyUs.astro";
+import Process from "../components/Process.astro";
+import Contact from "../components/Contact.astro";
+import Footer from "../components/Footer.astro";
+
+---
+
+<Layout
+  title="Paperhue Studio | Websites that turn visitors into customers"
+  description="Paperhue Studio designs and builds fast, conversion-focused websites, ecommerce stores, apps, custom software and AI agents."
+>
+  <Header />
+  <main class="container mx-auto px-5 sm:px-6">
+    <section class="flex flex-col items-center pt-8 text-center md:pt-12">
+      <h1 class="max-w-4xl">Websites that turn visitors into customers</h1>
+      <p class="lead mt-5 max-w-2xl md:mt-6">At Paperhue, we specialise in ecommerce. We design and build fast, clear, easy-to-buy-from stores for B2C and B2B brands, and we test every page for conversion before it goes live, so your traffic turns into orders from day one.</p>
+
+      <div class="mt-8 flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:gap-4 md:mt-10">
+        <a href="#contact" class="group inline-flex items-center justify-between gap-3 rounded-full border-2 border-accent bg-accent py-1.5 pr-1.5 pl-6 text-body text-page transition-opacity hover:opacity-90 sm:justify-start">
+          Start a project
+          <span class="grid size-10 place-items-center rounded-full bg-page text-accent transition-transform duration-300 group-hover:translate-x-0.5" aria-hidden="true">
+            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </span>
+        </a>
+        <a href="#services" class="inline-flex items-center justify-center rounded-full border-2 border-accent px-6 py-3 text-body text-primary transition-colors hover:bg-accent hover:text-page">Explore our services</a>
+      </div>
+
+      <WorkFan />
+    </section>
+
+    <Services />
+
+    <Work />
+
+    <WhyUs />
+
+    <Process />
+
+    <Contact />
+  </main>
+
+  <Footer />
+</Layout>

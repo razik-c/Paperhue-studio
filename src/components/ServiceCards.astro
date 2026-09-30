@@ -1,0 +1,100 @@
+---
+const cards = [
+  { label: "web", r: -6, icon: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>' },
+  { label: "mobile", r: 4, icon: '<rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/>' },
+  { label: "software", r: -3, icon: '<path d="m8 7-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/>' },
+  { label: "ai agents", r: 5, icon: '<rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 14h.01M15 14h.01"/><circle cx="12" cy="3" r="1"/>' },
+  { label: "ecommerce", r: -5, icon: '<path d="M3 4h2l2.5 11h10L20 7H6"/><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/>' },
+  { label: "design", r: 6, icon: '<path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 1.5-2-.6-1.2.2-2.5 1.5-2.5H17a4 4 0 0 0 4-4c0-5-4-9.5-9-9.5Z"/><path d="M7.5 11h.01M11 7.5h.01M15.5 8.5h.01"/>' },
+];
+---
+
+<div class="cards" data-cards aria-hidden="true">
+  {cards.map((c) => (
+    <div class="card" data-tilt={c.r}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" set:html={c.icon} />
+      <span>{c.label}</span>
+    </div>
+  ))}
+</div>
+
+<style>
+  .cards {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 3 / 2;
+    margin-inline: auto;
+  }
+  .card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 104px;
+    height: 104px;
+    padding: 14px;
+    border-radius: 2px;
+    background: rgb(255 255 255 / 0.07);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12), 0 18px 40px -16px rgb(0 0 0 / 0.6);
+    backdrop-filter: blur(10px);
+    color: var(--color-primary);
+    will-change: transform;
+  }
+  .card svg {
+    width: 26px;
+    height: 26px;
+    color: var(--color-accent);
+  }
+  .card span {
+    font-size: 14px;
+    line-height: 1.1;
+  }
+</style>
+
+<script>
+  const wrap = document.querySelector<HTMLElement>("[data-cards]");
+  const cards = [...(wrap?.querySelectorAll<HTMLElement>(".card") ?? [])];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const homes = [
+    [0.17, 0.28], [0.5, 0.24], [0.83, 0.3],
+    [0.2, 0.74], [0.53, 0.78], [0.84, 0.72],
+  ];
+
+  if (wrap && cards.length) {
+    const seeds = cards.map((c, i) => ({
+      tilt: Number(c.dataset.tilt),
+      p: i * 1.7,
+      speed: 0.35 + (i % 3) * 0.08,
+      dir: i % 2 ? -1 : 1,
+    }));
+    const size = 104;
+    const pad = 8;
+
+    const place = (now: number) => {
+      const t = now / 1000;
+      const w = wrap.clientWidth;
+      const h = wrap.clientHeight;
+      const r = Math.min(w, h) * 0.05;
+
+      cards.forEach((card, i) => {
+        const s = seeds[i];
+        const [hx, hy] = homes[i % homes.length];
+        const a = s.dir * (t * s.speed + 0.6 * Math.sin(t * 0.4 + s.p)) + s.p;
+        let x = hx * w + Math.cos(a) * r * 1.2 - size / 2;
+        let y = hy * h + Math.sin(a) * r + Math.sin(t * 0.9 + s.p) * 4 - size / 2;
+        x = Math.min(Math.max(x, pad), w - size - pad);
+        y = Math.min(Math.max(y, pad), h - size - pad);
+        const tilt = s.tilt + Math.sin(t * 0.7 + s.p) * 3;
+        card.style.transform = `translate(${x}px, ${y}px) rotate(${tilt}deg)`;
+      });
+
+      if (!reduce) requestAnimationFrame(place);
+    };
+
+    requestAnimationFrame(place);
+    if (reduce) addEventListener("resize", () => place(0));
+  }
+</script>

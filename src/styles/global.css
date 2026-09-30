@@ -1,0 +1,90 @@
+@import "tailwindcss";
+@import "@fontsource-variable/outfit";
+
+@theme {
+  --font-sans: "Outfit Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --color-page: #070808;
+  --color-primary: #e9e9eb;
+  --color-secondary: #b4b4b8;
+  --color-muted: #8c8c90;
+  --color-white: #ffffff;
+  --color-accent: #f0b050;
+
+  --tracking-tight: -0.02em;
+
+  --text-display: clamp(2.75rem, 1.5rem + 5.2vw, 5.5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.045em;
+  --text-h2: clamp(2.25rem, 1.45rem + 3.4vw, 4rem);
+  --text-h2--line-height: 1;
+  --text-h2--letter-spacing: -0.04em;
+  --text-h3: clamp(1.5rem, 1.1rem + 1.7vw, 2.5rem);
+  --text-h3--line-height: 1.05;
+  --text-h3--letter-spacing: -0.035em;
+  --text-lead: clamp(1.1875rem, 1.05rem + 0.5vw, 1.5rem);
+  --text-lead--line-height: 1.4;
+  --text-lead--letter-spacing: -0.015em;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.5;
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.35;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.06em;
+}
+
+@layer base {
+  html,
+  body {
+    margin: 0;
+    background: var(--color-page);
+    color: var(--color-primary);
+    font-family: var(--font-sans);
+    font-weight: 500;
+    letter-spacing: var(--tracking-tight);
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    overflow-x: clip;
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 24px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  h1 {
+    @apply text-display text-white;
+    text-wrap: balance;
+  }
+  h2 {
+    @apply text-h2 text-white;
+    text-wrap: balance;
+  }
+  h3 {
+    @apply text-h3 text-white;
+  }
+  p {
+    @apply text-body text-muted;
+    text-wrap: pretty;
+  }
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-page);
+  }
+}
+
+@utility lead {
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+  letter-spacing: var(--text-lead--letter-spacing);
+  color: var(--color-secondary);
+}
+

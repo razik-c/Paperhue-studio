@@ -1,0 +1,223 @@
+---
+const steps = [
+  {
+    title: "Discovery",
+    text: "We learn how your business sells today, who your customers are and where the current site is losing them.",
+    image: "https://picsum.photos/seed/ph-discovery/900/800",
+  },
+  {
+    title: "Strategy & UX",
+    text: "We map the pages, journeys and content that will move visitors from first click to checkout or enquiry.",
+    image: "https://picsum.photos/seed/ph-strategy/900/800",
+  },
+  {
+    title: "Design",
+    text: "We design a clear, on-brand interface for desktop and mobile, and refine it with you before a line of code is written.",
+    image: "https://picsum.photos/seed/ph-design/900/800",
+  },
+  {
+    title: "Development",
+    text: "We build it fast, accessible and easy to manage, with the integrations, payments and tools your team needs.",
+    image: "https://picsum.photos/seed/ph-build/900/800",
+  },
+  {
+    title: "Testing & launch",
+    text: "We test every page for speed, SEO and conversion on real devices, then launch without downtime.",
+    image: "https://picsum.photos/seed/ph-launch/900/800",
+  },
+  {
+    title: "Growth & support",
+    text: "After launch we keep improving: tracking results, running tests and looking after the site as you grow.",
+    image: "https://picsum.photos/seed/ph-growth/900/800",
+  },
+];
+const pad = (n: number) => String(n).padStart(2, "0");
+---
+
+<section id="process" class="process" aria-labelledby="process-title" data-process>
+  <div class="process-pin">
+    <h2 id="process-title" class="process-title">
+      <span>Our</span>
+      <span>Process</span>
+    </h2>
+
+    <ol class="process-track" data-process-track>
+      {steps.map((s, i) => (
+        <li class="step">
+          <div class="step-head">
+            <span class="step-num">{pad(i + 1)}</span>
+            <h3 class="step-title">{s.title}</h3>
+          </div>
+          <div class="step-line" aria-hidden="true"></div>
+          <div class="step-body">
+            <img src={s.image} alt="" width="900" height="800" loading="lazy" decoding="async" />
+            <p>{s.text}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process {
+    position: relative;
+    padding-block: 48px;
+  }
+  .process-pin {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(32px, 5vh, 64px);
+  }
+  .process-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: var(--text-display);
+    line-height: var(--text-display--line-height);
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .process-track {
+    display: flex;
+    margin-inline: -20px;
+    padding-inline: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 20px;
+    scrollbar-width: none;
+  }
+  .process-track::-webkit-scrollbar { display: none; }
+
+  .step {
+    flex: none;
+    width: min(85vw, 420px);
+    padding-right: 20px;
+    scroll-snap-align: start;
+  }
+  .step-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    min-height: 1.2em;
+  }
+  .step-num {
+    color: var(--color-accent);
+    font-size: var(--text-h2);
+    line-height: 1;
+    font-style: italic;
+    font-weight: 300;
+    letter-spacing: -0.04em;
+  }
+  .step-title {
+    color: var(--color-white);
+    font-size: var(--text-lead);
+    line-height: 1.2;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+  .step-line {
+    height: 24px;
+    margin-top: 20px;
+    border-top: 1px solid rgb(255 255 255 / 0.15);
+    border-left: 1px solid rgb(255 255 255 / 0.15);
+  }
+  .step-body {
+    display: grid;
+    gap: 16px;
+    padding-left: 20px;
+  }
+  .step-body img {
+    width: 100%;
+    aspect-ratio: 9 / 8;
+    object-fit: cover;
+    border-radius: 16px;
+    background: rgb(255 255 255 / 0.05);
+  }
+  .step-body p {
+    max-width: 34ch;
+    color: var(--color-secondary);
+  }
+
+  @media (min-width: 1024px) {
+    .process {
+      padding-block: 0;
+    }
+    .process-pin {
+      margin-inline: calc(50% - 50vw);
+      padding-inline: calc(50vw - 50%);
+    }
+    .process.is-pinned .process-pin {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .process-track {
+      margin-inline: 0;
+      padding-inline: 0;
+      overflow: visible;
+      scroll-snap-type: none;
+      will-change: transform;
+    }
+    .process:not(.is-pinned) .process-track {
+      overflow-x: auto;
+    }
+    .step {
+      width: clamp(560px, 44vw, 760px);
+      padding-right: 0;
+    }
+    .step-body {
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .step-body img {
+      aspect-ratio: 1;
+      max-height: 46vh;
+    }
+  }
+</style>
+
+<script>
+  const section = document.querySelector<HTMLElement>("[data-process]");
+  const track = document.querySelector<HTMLElement>("[data-process-track]");
+  const desktop = matchMedia("(min-width: 1024px)");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+
+  if (section && track) {
+    let distance = 0;
+    let ticking = false;
+
+    const move = () => {
+      ticking = false;
+      if (!section.classList.contains("is-pinned")) return;
+      const scrolled = -section.getBoundingClientRect().top;
+      const p = Math.min(Math.max(scrolled / distance, 0), 1);
+      track.style.transform = `translate3d(${-p * distance}px, 0, 0)`;
+    };
+
+    const setup = () => {
+      const pin = desktop.matches && !reduce.matches;
+      section.classList.toggle("is-pinned", pin);
+      if (!pin) {
+        section.style.height = "";
+        track.style.transform = "";
+        return;
+      }
+      distance = Math.max(track.scrollWidth - track.clientWidth, 0);
+      section.style.height = `${innerHeight + distance}px`;
+      move();
+    };
+
+    addEventListener("scroll", () => {
+      if (!ticking) requestAnimationFrame(move);
+      ticking = true;
+    }, { passive: true });
+    addEventListener("resize", setup);
+    desktop.addEventListener("change", setup);
+    addEventListener("load", setup);
+    setup();
+  }
+</script>

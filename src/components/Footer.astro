@@ -71,7 +71,7 @@ const year = new Date().getFullYear();
 
 <style>
   .site-footer {
-    margin-top: 64px;
+    margin-top: 0;
     border-top: 1px solid rgb(255 255 255 / 0.1);
   }
 
@@ -79,13 +79,13 @@ const year = new Date().getFullYear();
     position: relative;
     display: grid;
     gap: 48px;
-    padding-block: 64px;
+    padding-block: calc(var(--space-section) * 0.75);
   }
   @media (min-width: 1024px) {
     .foot-main {
       grid-template-columns: 5fr 7fr;
       align-items: start;
-      padding-block: 96px;
+      padding-block: calc(var(--space-section) * 0.75);
     }
   }
 
@@ -124,7 +124,7 @@ const year = new Date().getFullYear();
 
   .foot-top {
     position: absolute;
-    top: 64px;
+    top: calc(var(--space-section) * 0.75);
     right: 0;
     display: grid;
     place-items: center;
@@ -139,7 +139,7 @@ const year = new Date().getFullYear();
   .foot-top svg { width: 18px; height: 18px; }
   .foot-top:hover { background: var(--color-accent); color: var(--color-page); translate: 0 -3px; box-shadow: none; }
   @media (min-width: 1024px) {
-    .foot-top { top: 96px; }
+    .foot-top { top: calc(var(--space-section) * 0.75); }
   }
 
   .foot-bar {

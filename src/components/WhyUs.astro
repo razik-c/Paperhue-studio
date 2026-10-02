@@ -13,8 +13,8 @@ const done = [
 ];
 ---
 
-<section id="why-us" aria-labelledby="why-title" class="mx-auto max-w-6xl py-12 md:py-20">
-  <h1 id="why-title" class="why-title">Most web studios have never run a shop.</h1>
+<section id="why-us" aria-labelledby="why-title" class="section">
+  <h2 id="why-title" class="why-title">Most web studios have never run a shop.</h2>
 
   <p class="why-sub lead">
     We do, every day. <a href={shop} target="_blank" rel="noopener noreferrer">Paperhue.com</a> is our own store, and
@@ -45,7 +45,7 @@ const done = [
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    margin-top: clamp(28px, 3vw, 40px);
+    margin-top: 40px;
     padding: 6px 6px 6px 24px;
     border-radius: 9999px;
     background: var(--color-accent);
@@ -72,7 +72,7 @@ const done = [
 
   .why-sub {
     max-width: 40ch;
-    margin-top: clamp(20px, 2.5vw, 32px);
+    margin-top: 24px;
     color: var(--color-primary);
   }
   .why-sub a {
@@ -87,8 +87,8 @@ const done = [
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px 24px;
     max-width: 880px;
-    margin-top: clamp(32px, 4vw, 56px);
-    padding-top: clamp(24px, 3vw, 32px);
+    margin-top: var(--space-head);
+    padding-top: 24px;
     border-top: 1px solid rgb(255 255 255 / 0.1);
     color: var(--color-secondary);
     font-size: var(--text-small);

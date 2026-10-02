@@ -16,6 +16,10 @@ const { size = "sm", class: className = "pt-8" } = Astro.props;
     display: inline-flex;
     flex-direction: column;
     align-items: flex-start;
+    position: relative;
+    width: fit-content;
+    justify-self: start;
+    padding-bottom: 0.57em;
     color: var(--color-white);
     line-height: 1;
     rotate: -6deg;
@@ -34,10 +38,13 @@ const { size = "sm", class: className = "pt-8" } = Astro.props;
     letter-spacing: -0.05em;
   }
   .logo-sub {
-    margin-top: 0.15em;
+    position: absolute;
+    padding-bottom: 10px;
+    right: 0;
+    bottom: -0.12em;
     color: var(--color-secondary);
     opacity: 0.6;
-    font-size: 0.42em;
+    font-size: 0.55em;
     font-weight: 500;
     letter-spacing: 0.02em;
   }
@@ -48,9 +55,10 @@ const { size = "sm", class: className = "pt-8" } = Astro.props;
   }
   .lg {
     font-size: clamp(3.5rem, 2rem + 6vw, 7rem);
+    padding-bottom: 0.52em;
   }
   .lg .logo-sub {
-    font-size: 0.32em;
-    margin-top: 0.2em;
+    font-size: 0.42em;
+    bottom: -0.1em;
   }
 </style>

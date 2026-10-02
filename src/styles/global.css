@@ -14,20 +14,23 @@
 
   --tracking-tight: -0.02em;
 
-  --text-display: clamp(2.75rem, 1.5rem + 5.2vw, 5.5rem);
+  /* Fluid modular scale, 390px → 1440px viewport.
+     Mobile: 16px base × 1.25 (major third). Desktop: 18px base × 1.333 (perfect fourth).
+     display = base×r⁵, h2 = r⁴, h3 = r², lead = r¹. small/label are fixed UI sizes. */
+  --text-display: clamp(3.0625rem, 2.436rem + 2.571vw, 4.75rem);
   --text-display--line-height: 0.95;
   --text-display--letter-spacing: -0.045em;
-  --text-h2: clamp(2.25rem, 1.45rem + 3.4vw, 4rem);
+  --text-h2: clamp(2.4375rem, 2.019rem + 1.714vw, 3.5625rem);
   --text-h2--line-height: 1;
   --text-h2--letter-spacing: -0.04em;
-  --text-h3: clamp(1.5rem, 1.1rem + 1.7vw, 2.5rem);
-  --text-h3--line-height: 1.05;
-  --text-h3--letter-spacing: -0.035em;
-  --text-lead: clamp(1.1875rem, 1.05rem + 0.5vw, 1.5rem);
+  --text-h3: clamp(1.5625rem, 1.4rem + 0.667vw, 2rem);
+  --text-h3--line-height: 1.1;
+  --text-h3--letter-spacing: -0.03em;
+  --text-lead: clamp(1.25rem, 1.157rem + 0.381vw, 1.5rem);
   --text-lead--line-height: 1.4;
   --text-lead--letter-spacing: -0.015em;
-  --text-body: 1.125rem;
-  --text-body--line-height: 1.5;
+  --text-body: clamp(1rem, 0.954rem + 0.19vw, 1.125rem);
+  --text-body--line-height: 1.55;
   --text-small: 0.875rem;
   --text-small--line-height: 1.35;
   --text-label: 0.75rem;
@@ -75,6 +78,13 @@
     @apply text-body text-muted;
     text-wrap: pretty;
   }
+  :root {
+    /* Vertical rhythm on an 8px grid: 64px between sections on mobile → 128px on desktop.
+       Each section carries half above and half below, so neighbours always sum to one gap. */
+    --space-section: clamp(4rem, 2.514rem + 6.095vw, 8rem);
+    /* Section header → content: 40px → 64px. */
+    --space-head: clamp(2.5rem, 1.943rem + 2.286vw, 4rem);
+  }
   ::selection {
     background: var(--color-primary);
     color: var(--color-page);
@@ -86,5 +96,33 @@
   line-height: var(--text-lead--line-height);
   letter-spacing: var(--text-lead--letter-spacing);
   color: var(--color-secondary);
+}
+
+@utility section {
+  padding-block: calc(var(--space-section) / 2);
+}
+
+/* Shared section header: title left, intro right (stacked on mobile). */
+@layer components {
+  .section-head {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: var(--space-head);
+  }
+  .section-head > p {
+    max-width: 28rem;
+  }
+  @media (min-width: 768px) {
+    .section-head {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .section-head > p {
+      text-align: right;
+    }
+  }
 }
 

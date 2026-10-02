@@ -34,190 +34,169 @@ const steps = [
 const pad = (n: number) => String(n).padStart(2, "0");
 ---
 
-<section id="process" class="process" aria-labelledby="process-title" data-process>
-  <div class="process-pin">
-    <h2 id="process-title" class="process-title">
-      <span>Our</span>
-      <span>Process</span>
-    </h2>
-
-    <ol class="process-track" data-process-track>
-      {steps.map((s, i) => (
-        <li class="step">
-          <div class="step-head">
-            <span class="step-num">{pad(i + 1)}</span>
-            <h3 class="step-title">{s.title}</h3>
-          </div>
-          <div class="step-line" aria-hidden="true"></div>
-          <div class="step-body">
-            <img src={s.image} alt="" width="900" height="800" loading="lazy" decoding="async" />
-            <p>{s.text}</p>
-          </div>
-        </li>
-      ))}
-    </ol>
+<section id="process" class="section" aria-labelledby="process-title">
+  <div class="section-head">
+    <h2 id="process-title">Our process</h2>
+    <p class="lead">Six clear steps from first conversation to a site that keeps getting better after launch.</p>
   </div>
+
+  <ol class="panels" data-panels>
+    {steps.map((s, i) => (
+      <li class:list={["panel", { "is-active": i === 0 }]}>
+        <button type="button" class="panel-btn" aria-expanded={i === 0 ? "true" : "false"}>
+          <img src={s.image} alt="" width="900" height="800" loading="lazy" decoding="async" />
+          <span class="panel-num">{pad(i + 1)}</span>
+          <span class="panel-side">{s.title}</span>
+          <span class="panel-body">
+            <span class="panel-title">{s.title}</span>
+            <span class="panel-text">{s.text}</span>
+          </span>
+        </button>
+      </li>
+    ))}
+  </ol>
 </section>
 
 <style>
-  .process {
-    position: relative;
-    padding-block: 48px;
-  }
-  .process-pin {
+  .panels {
     display: flex;
     flex-direction: column;
-    gap: clamp(32px, 5vh, 64px);
+    gap: 10px;
+    height: 560px;
   }
-  .process-title {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px;
-    font-size: var(--text-display);
-    line-height: var(--text-display--line-height);
-    letter-spacing: 0;
-    text-transform: uppercase;
+  .panel {
+    flex: 1 1 0;
+    min-height: 0;
+    min-width: 0;
+    transition: flex-grow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
   }
+  .panel.is-active { flex-grow: 6; }
 
-  .process-track {
-    display: flex;
-    margin-inline: -20px;
-    padding-inline: 20px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: 20px;
-    scrollbar-width: none;
-  }
-  .process-track::-webkit-scrollbar { display: none; }
-
-  .step {
-    flex: none;
-    width: min(85vw, 420px);
-    padding-right: 20px;
-    scroll-snap-align: start;
-  }
-  .step-head {
-    display: flex;
-    align-items: baseline;
-    gap: 14px;
-    min-height: 1.2em;
-  }
-  .step-num {
-    color: var(--color-accent);
-    font-size: var(--text-h2);
-    line-height: 1;
-    font-style: italic;
-    font-weight: 300;
-    letter-spacing: -0.04em;
-  }
-  .step-title {
-    color: var(--color-white);
-    font-size: var(--text-lead);
-    line-height: 1.2;
-    letter-spacing: 0;
-    text-transform: uppercase;
-  }
-  .step-line {
-    height: 24px;
-    margin-top: 20px;
-    border-top: 1px solid rgb(255 255 255 / 0.15);
-    border-left: 1px solid rgb(255 255 255 / 0.15);
-  }
-  .step-body {
-    display: grid;
-    gap: 16px;
-    padding-left: 20px;
-  }
-  .step-body img {
+  .panel-btn {
+    position: relative;
+    display: block;
     width: 100%;
-    aspect-ratio: 9 / 8;
-    object-fit: cover;
+    height: 100%;
+    overflow: hidden;
     border-radius: 16px;
     background: rgb(255 255 255 / 0.05);
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+    color: var(--color-white);
+    text-align: left;
+    cursor: pointer;
   }
-  .step-body p {
-    max-width: 34ch;
-    color: var(--color-secondary);
+  .panel-btn img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.18;
+    filter: grayscale(1);
+    transition: opacity 0.6s, filter 0.6s;
+  }
+  .panel.is-active img { opacity: 1; filter: none; }
+  .panel-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.78), transparent 65%);
+    opacity: 0;
+    transition: opacity 0.6s;
+  }
+  .panel.is-active .panel-btn::after { opacity: 1; }
+
+  .panel-num {
+    position: absolute;
+    left: 20px;
+    top: 18px;
+    z-index: 1;
+    color: var(--color-accent);
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--text-label--letter-spacing);
+  }
+  .panel-side {
+    position: absolute;
+    z-index: 1;
+    left: 56px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: var(--text-lead);
+    line-height: 1.1;
+    transition: opacity 0.3s;
+  }
+  .panel.is-active .panel-side { opacity: 0; }
+  @media (max-width: 1023px) {
+    .panel:not(.is-active) .panel-num { top: 50%; transform: translateY(-50%); }
+  }
+
+  .panel-body {
+    position: absolute;
+    z-index: 1;
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    display: grid;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+  }
+  .panel.is-active .panel-body {
+    opacity: 1;
+    transform: none;
+    transition: opacity 0.5s 0.25s, transform 0.5s 0.25s;
+  }
+  .panel-title {
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    letter-spacing: var(--text-h3--letter-spacing);
+  }
+  .panel-text {
+    max-width: 38ch;
+    color: rgb(255 255 255 / 0.8);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
 
   @media (min-width: 1024px) {
-    .process {
-      padding-block: 0;
+    .panels {
+      flex-direction: row;
+      height: clamp(360px, 48vh, 460px);
     }
-    .process-pin {
-      margin-inline: calc(50% - 50vw);
-      padding-inline: calc(50vw - 50%);
+    .panel.is-active { flex-grow: 3.4; }
+    .panel-side {
+      left: 50%;
+      top: auto;
+      bottom: 24px;
+      writing-mode: vertical-rl;
+      transform: translateX(-50%) rotate(180deg);
+      white-space: nowrap;
     }
-    .process.is-pinned .process-pin {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .process-track {
-      margin-inline: 0;
-      padding-inline: 0;
-      overflow: visible;
-      scroll-snap-type: none;
-      will-change: transform;
-    }
-    .process:not(.is-pinned) .process-track {
-      overflow-x: auto;
-    }
-    .step {
-      width: clamp(560px, 44vw, 760px);
-      padding-right: 0;
-    }
-    .step-body {
-      grid-template-columns: 1fr 1fr;
-      gap: 28px;
-    }
-    .step-body img {
-      aspect-ratio: 1;
-      max-height: 46vh;
-    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .panel, .panel-btn img, .panel-btn::after, .panel-body { transition: none; }
   }
 </style>
 
 <script>
-  const section = document.querySelector<HTMLElement>("[data-process]");
-  const track = document.querySelector<HTMLElement>("[data-process-track]");
-  const desktop = matchMedia("(min-width: 1024px)");
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const items = [...document.querySelectorAll<HTMLElement>("[data-panels] .panel")];
+  const hover = matchMedia("(hover: hover)").matches;
 
-  if (section && track) {
-    let distance = 0;
-    let ticking = false;
+  const activate = (el: HTMLElement) => {
+    items.forEach((p) => {
+      const on = p === el;
+      p.classList.toggle("is-active", on);
+      p.querySelector("button")?.setAttribute("aria-expanded", String(on));
+    });
+  };
 
-    const move = () => {
-      ticking = false;
-      if (!section.classList.contains("is-pinned")) return;
-      const scrolled = -section.getBoundingClientRect().top;
-      const p = Math.min(Math.max(scrolled / distance, 0), 1);
-      track.style.transform = `translate3d(${-p * distance}px, 0, 0)`;
-    };
-
-    const setup = () => {
-      const pin = desktop.matches && !reduce.matches;
-      section.classList.toggle("is-pinned", pin);
-      if (!pin) {
-        section.style.height = "";
-        track.style.transform = "";
-        return;
-      }
-      distance = Math.max(track.scrollWidth - track.clientWidth, 0);
-      section.style.height = `${innerHeight + distance}px`;
-      move();
-    };
-
-    addEventListener("scroll", () => {
-      if (!ticking) requestAnimationFrame(move);
-      ticking = true;
-    }, { passive: true });
-    addEventListener("resize", setup);
-    desktop.addEventListener("change", setup);
-    addEventListener("load", setup);
-    setup();
-  }
+  items.forEach((p) => {
+    const btn = p.querySelector("button");
+    btn?.addEventListener("click", () => activate(p));
+    btn?.addEventListener("focus", () => activate(p));
+    if (hover) p.addEventListener("mouseenter", () => activate(p));
+  });
 </script>

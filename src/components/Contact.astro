@@ -1,270 +1,93 @@
 ---
 const email = "hello@paperhue.com";
-const services = ["Website", "Ecommerce", "Mobile app", "Custom software", "Custom CRM", "AI agents", "SEO", "Not sure yet"];
-const budgets = ["Under $5k", "$5k – $15k", "$15k – $50k", "$50k+"];
 ---
 
-<section id="contact" class="py-12 md:py-20" aria-labelledby="contact-title">
-  <div class="grid gap-10 lg:grid-cols-12 lg:gap-16">
-    <div class="lg:col-span-5">
-      <h2 id="contact-title">Let's talk</h2>
-      <p class="lead mt-4 max-w-md">Tell us about your project and we'll get back to you with next steps.</p>
-      <p class="mt-8 text-small text-muted">Prefer email?</p>
-      <a href={`mailto:${email}`} class="mt-1 inline-block text-h3 break-all text-accent transition-opacity hover:opacity-80">{email}</a>
+<section id="contact" class="section" aria-labelledby="contact-title">
+  <h2 id="contact-title">Contact us</h2>
+  <a href={`mailto:${email}`} class="mt-4 inline-block text-h3 break-all md:text-h2 text-accent transition-opacity hover:opacity-80">{email}</a>
+
+  <form class="reach" data-reach data-email={email} novalidate>
+    <label for="reach-email" class="reach-label">Or leave your email and we'll reach out.</label>
+    <div class="reach-row">
+      <input id="reach-email" type="email" name="email" placeholder="you@company.com" autocomplete="email" inputmode="email" required />
+      <button type="submit">Reach out to me</button>
     </div>
-
-    <form class="contact-form lg:col-span-7" data-contact data-email={email} novalidate>
-      <div class="grid gap-5 sm:grid-cols-2">
-        <label class="field">
-          <span>Name</span>
-          <input type="text" name="name" autocomplete="name" required />
-        </label>
-        <label class="field">
-          <span>Email</span>
-          <input type="email" name="email" autocomplete="email" inputmode="email" required />
-        </label>
-        <label class="field">
-          <span>Company <em>optional</em></span>
-          <input type="text" name="company" autocomplete="organization" />
-        </label>
-        <label class="field">
-          <span>Phone <em>optional</em></span>
-          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" />
-        </label>
-      </div>
-
-      <fieldset class="choices">
-        <legend>What do you need?</legend>
-        <div class="chips">
-          {services.map((s) => (
-            <label class="chip">
-              <input type="checkbox" name="services" value={s} />
-              <span>{s}</span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <fieldset class="choices">
-        <legend>Budget</legend>
-        <div class="chips">
-          {budgets.map((b) => (
-            <label class="chip">
-              <input type="radio" name="budget" value={b} />
-              <span>{b}</span>
-            </label>
-          ))}
-        </div>
-      </fieldset>
-
-      <label class="field">
-        <span>Tell us about your project</span>
-        <textarea name="message" rows="5" required></textarea>
-      </label>
-
-      <div class="form-foot">
-        <button type="submit" class="submit group">
-          Send message
-          <span class="submit-arrow" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-          </span>
-        </button>
-        <p class="form-status" role="status" aria-live="polite" data-status></p>
-      </div>
-    </form>
-  </div>
+    <p class="reach-status" role="status" aria-live="polite" data-status></p>
+  </form>
 </section>
 
 <style>
-  .contact-form {
+  .reach {
     display: grid;
-    gap: 28px;
-    padding: clamp(20px, 3vw, 40px);
-    border-radius: 24px;
-    background: rgb(255 255 255 / 0.03);
-    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
+    gap: 12px;
+    max-width: 520px;
+    margin-top: 40px;
   }
-
-  .field {
-    display: grid;
-    gap: 8px;
-  }
-  .field > span,
-  .choices legend {
+  .reach-label {
     color: var(--color-secondary);
     font-size: var(--text-small);
   }
-  .field em {
-    margin-left: 4px;
-    color: var(--color-muted);
-    font-style: normal;
-    opacity: 0.7;
-  }
-  .field input,
-  .field textarea {
-    width: 100%;
-    padding: 14px 18px;
-    border: 0;
-    border-radius: 14px;
-    background: rgb(255 255 255 / 0.05);
-    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
-    color: var(--color-white);
-    font: inherit;
-    font-size: max(16px, var(--text-body));
-    transition: box-shadow 0.2s, background 0.2s;
-  }
-  .field textarea {
-    min-height: 140px;
-    resize: vertical;
-  }
-  .field input:focus,
-  .field textarea:focus {
-    outline: none;
-    background: rgb(255 255 255 / 0.07);
-    box-shadow: inset 0 0 0 2px var(--color-accent);
-  }
-  .field input[aria-invalid="true"],
-  .field textarea[aria-invalid="true"] {
-    box-shadow: inset 0 0 0 2px #e5484d;
-  }
-
-  .choices {
-    margin: 0;
-    padding: 0;
-    border: 0;
-  }
-  .choices legend {
-    margin-bottom: 12px;
-    padding: 0;
-  }
-  .chips {
+  .reach-row {
     display: flex;
-    flex-wrap: wrap;
     gap: 8px;
-  }
-  .chip {
-    position: relative;
-    cursor: pointer;
-  }
-  .chip input {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    cursor: pointer;
-  }
-  .chip span {
-    display: inline-block;
-    padding: 10px 16px;
+    padding: 6px;
     border-radius: 9999px;
     background: rgb(255 255 255 / 0.05);
     box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
-    color: var(--color-secondary);
-    font-size: var(--text-small);
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    transition: box-shadow 0.2s;
   }
-  .chip input:checked + span {
-    background: var(--color-accent);
-    color: var(--color-page);
-    box-shadow: none;
+  .reach-row:focus-within { box-shadow: inset 0 0 0 2px var(--color-accent); }
+  .reach-row input {
+    flex: 1;
+    min-width: 0;
+    padding: 0 16px;
+    border: 0;
+    background: transparent;
+    color: var(--color-white);
+    font: inherit;
+    font-size: max(16px, var(--text-body));
   }
-  .chip input:focus-visible + span {
-    outline: 2px solid var(--color-accent);
-    outline-offset: 2px;
-  }
-  @media (hover: hover) {
-    .chip:hover input:not(:checked) + span {
-      color: var(--color-white);
-      box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.3);
-    }
-  }
-
-  .form-foot {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 16px 24px;
-  }
-  .submit {
-    display: inline-flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    padding: 6px 6px 6px 24px;
+  .reach-row input:focus { outline: none; }
+  .reach-row button {
+    padding: 12px 22px;
     border-radius: 9999px;
     background: var(--color-accent);
     color: var(--color-page);
     font: inherit;
     font-size: var(--text-body);
+    white-space: nowrap;
     cursor: pointer;
     transition: opacity 0.3s;
   }
-  .submit-arrow {
-    display: grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 9999px;
-    background: var(--color-page);
-    color: var(--color-accent);
-    transition: translate 0.3s;
+  .reach-row button:hover { opacity: 0.9; }
+  .reach-status { min-height: 1.4em; font-size: var(--text-small); }
+  .reach-status.error { color: #e5484d; }
+  .reach-status.ok { color: var(--color-accent); }
+  @media (max-width: 479px) {
+    .reach-row { flex-direction: column; border-radius: 24px; }
+    .reach-row input { padding: 12px 16px; }
   }
-  .submit-arrow svg { width: 16px; height: 16px; }
-  @media (hover: hover) {
-    .submit:hover { opacity: 0.9; }
-    .submit:hover .submit-arrow { translate: 3px 0; }
-  }
-  .submit:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
-  @media (max-width: 639px) {
-    .submit { width: 100%; }
-  }
-  .form-status {
-    font-size: var(--text-small);
-  }
-  .form-status.error { color: #e5484d; }
-  .form-status.ok { color: var(--color-accent); }
 </style>
 
 <script>
-  const form = document.querySelector<HTMLFormElement>("[data-contact]");
+  const form = document.querySelector<HTMLFormElement>("[data-reach]");
   const status = form?.querySelector<HTMLElement>("[data-status]");
+  const input = form?.querySelector<HTMLInputElement>("input");
 
-  if (form && status) {
-    const required = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("[required]")];
-
-    const check = (el: HTMLInputElement | HTMLTextAreaElement) => {
-      const ok = el.checkValidity() && el.value.trim() !== "";
-      el.setAttribute("aria-invalid", String(!ok));
-      return ok;
-    };
-    required.forEach((el) => el.addEventListener("input", () => el.getAttribute("aria-invalid") && check(el)));
-
+  if (form && status && input) {
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const bad = required.filter((el) => !check(el));
-      if (bad.length) {
-        status.className = "form-status error";
-        status.textContent = "Please fill in your name, a valid email and a short message.";
-        bad[0].focus();
+      const value = input.value.trim();
+      if (!value || !input.checkValidity()) {
+        status.className = "reach-status error";
+        status.textContent = "Please enter a valid email address.";
+        input.focus();
         return;
       }
-
-      const data = new FormData(form);
-      const services = data.getAll("services").join(", ") || "Not specified";
-      const lines = [
-        `Name: ${data.get("name")}`,
-        `Email: ${data.get("email")}`,
-        `Company: ${data.get("company") || "-"}`,
-        `Phone: ${data.get("phone") || "-"}`,
-        `Services: ${services}`,
-        `Budget: ${data.get("budget") || "Not specified"}`,
-        "",
-        String(data.get("message")),
-      ];
-      const subject = `New project enquiry from ${data.get("name")}`;
-      location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join("\n"))}`;
-
-      status.className = "form-status ok";
-      status.textContent = "Your email app should open with your message ready to send.";
+      const body = `Please reach out to me at ${value}.`;
+      location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent("Please get in touch")}&body=${encodeURIComponent(body)}`;
+      status.className = "reach-status ok";
+      status.textContent = "Thanks! Your email app should open. Send it and we'll reach out.";
     });
   }
 </script>

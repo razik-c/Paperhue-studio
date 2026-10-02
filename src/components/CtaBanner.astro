@@ -1,0 +1,74 @@
+---
+const email = "hello@paperhue.com";
+---
+
+<section class="cta" aria-labelledby="cta-title">
+  <span class="cta-circle" aria-hidden="true"></span>
+  <div class="cta-copy">
+    <h2 id="cta-title">Tell us about your project.</h2>
+    <p class="lead mt-6">A conversation with no strings attached, then an honest assessment. You know what it costs and how long it takes. In writing, at a fixed price.</p>
+    <a href={`mailto:${email}`} class="cta-btn group">
+      Start a project
+      <span class="cta-arrow" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9" /></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: clamp(460px, 62vh, 760px);
+    margin-block: calc(var(--space-section) / 2);
+    padding: clamp(1.5rem, 6vw, 6rem);
+    overflow: hidden;
+    border-radius: 24px;
+    background: #131415;
+  }
+  .cta-circle {
+    position: absolute;
+    left: 78%;
+    top: 8%;
+    width: clamp(300px, 62%, 1100px);
+    aspect-ratio: 1;
+    border-radius: 9999px;
+    background: var(--color-accent);
+    transform: translate(-50%, -50%);
+  }
+  .cta-copy {
+    position: relative;
+    max-width: 460px;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 40px;
+    padding: 8px 8px 8px 24px;
+    border-radius: 9999px;
+    box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.15);
+    color: var(--color-white);
+    transition: box-shadow 0.3s;
+  }
+  .cta-arrow {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    background: var(--color-accent);
+    color: var(--color-white);
+    transition: rotate 0.3s;
+  }
+  .cta-arrow svg { width: 16px; height: 16px; }
+  .cta-btn:hover { box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.4); }
+  .cta-btn:hover .cta-arrow { rotate: 45deg; }
+  .cta-btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+  @media (max-width: 639px) {
+    .cta { align-items: flex-end; }
+    .cta-circle { left: 85%; top: 0; width: 90%; }
+  }
+</style>
